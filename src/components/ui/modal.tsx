@@ -72,10 +72,10 @@ const ModalDescription = React.forwardRef<
 ));
 
 const ModalFooter = React.forwardRef<
-  React.ElementRef<typeof DialogPrimitive.Footer>,
-  React.ComponentPropsWithoutRef<typeof DialogPrimitive.Footer>
+  HTMLDivElement,
+  React.HTMLAttributes<HTMLDivElement>
 >(({ className, ...props }, ref) => (
-  <DialogPrimitive.Footer
+  <div
     ref={ref}
     className={cn(
       "flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2 pt-6",
@@ -84,6 +84,8 @@ const ModalFooter = React.forwardRef<
     {...props}
   />
 ));
+
+ModalFooter.displayName = "ModalFooter";
 
 export {
   Modal,
@@ -94,4 +96,5 @@ export {
   ModalContent,
   ModalTitle,
   ModalDescription,
+  ModalFooter,
 };

@@ -90,20 +90,20 @@ export function MessageBubble({
                 : "message-bubble-other rounded-bl-md"
             )}
           >
-            {message.attachments?.map((attachment, i) => (
-              <div key={i} className="mb-2">
-                {attachment.type === "image" && (
-                  <a href={attachment.url} target="_blank" rel="noopener noreferrer">
+            {message.attachment && (
+              <div className="mb-2">
+                {message.attachment.type === "image" && (
+                  <a href={message.attachment.url} target="_blank" rel="noopener noreferrer">
                     <img
-                      src={attachment.url}
-                      alt={attachment.name || "Image"}
+                      src={message.attachment.url}
+                      alt={message.attachment.name || "Image"}
                       className="rounded-lg max-w-full max-h-60 object-cover cursor-pointer hover:opacity-90 transition-opacity"
                     />
                   </a>
                 )}
-                {attachment.type === "file" && (
+                {message.attachment.type === "file" && (
                   <a
-                    href={attachment.url}
+                    href={message.attachment.url}
                     target="_blank"
                     rel="noopener noreferrer"
                     download
@@ -113,31 +113,31 @@ export function MessageBubble({
                       <FileText className="w-5 h-5 text-primary" />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-sm font-medium truncate">{attachment.name || 'File'}</p>
+                      <p className="text-sm font-medium truncate">{message.attachment.name || 'File'}</p>
                       <p className="text-xs text-muted-foreground">Click to download</p>
                     </div>
                     <Download className="w-4 h-4 text-muted-foreground" />
                   </a>
                 )}
-                {attachment.type === "link" && attachment.previewUrl && (
+                {message.attachment.type === "link" && message.attachment.previewUrl && (
                   <a
-                    href={attachment.url}
+                    href={message.attachment.url}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="block p-2 rounded-lg bg-background/50 hover:bg-background/80 transition"
                   >
                     <img
-                      src={attachment.previewUrl}
+                      src={message.attachment.previewUrl}
                       alt="Link preview"
                       className="rounded w-full h-32 object-cover mb-2"
                     />
                     <span className="text-sm text-primary underline">
-                      {attachment.name || attachment.url}
+                      {message.attachment.name || message.attachment.url}
                     </span>
                   </a>
                 )}
               </div>
-            ))}
+            )}
 
             <div 
               className="text-[15px] leading-relaxed whitespace-pre-wrap"

@@ -8,6 +8,9 @@ interface User {
   isSuperadmin: boolean;
   role: string;
   avatar?: string;
+  bio?: string;
+  status?: string;
+  email?: string;
 }
 
 interface AuthContextType {
@@ -50,9 +53,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           isAdmin,
           isSuperadmin,
           role: whoami.is_superadmin ? 'superadmin' : 'user',
-          avatar: whoami.avatar,
-          bio: whoami.bio,
-          status: whoami.status,
+          avatar: (whoami as any).avatar,
+          bio: (whoami as any).bio,
+          status: (whoami as any).status,
+          email: (whoami as any).email,
         });
         
         // Connect socket when authenticated
@@ -82,8 +86,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     await checkAuth();
   };
 
-  const register = async (username: string, password: string, email?: string) => {
-    await authApi.register(username, password, email);
+  const register = async (username: string, password: string) => {
+    await authApi.register(username, password);
     // After registration, log in
     await login(username, password);
   };
