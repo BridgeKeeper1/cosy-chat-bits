@@ -61,7 +61,7 @@ export default function Auth() {
           description: `Logged in as ${username}`,
         });
       } else {
-        await register(username, password, email.trim() || undefined);
+        await register(username, password);
         toast({
           title: 'Account created!',
           description: `Welcome to Chatter, ${username}`,

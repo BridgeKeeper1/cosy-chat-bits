@@ -94,7 +94,7 @@ const Index = () => {
   };
 
   // Convert API messages to frontend Message format
-  const convertApiMessage = useCallback((msg: Message | DmMessage | GdmMessage): Message => {
+  const convertApiMessage = useCallback((msg: ApiMessage | DmMessage | GdmMessage): Message => {
     // Get user avatar from online users or use default
     const getUserAvatar = (username: string): string | undefined => {
       // Check if user is in online users list
@@ -106,18 +106,14 @@ const Index = () => {
     let senderId: string;
     let senderName: string;
     
-    if ('username' in msg) {
-      // Message type (public messages)
-      senderId = msg.username;
-      senderName = msg.username;
-    } else if ('from_user' in msg) {
+    if ('from_user' in msg) {
       // DmMessage type
       senderId = msg.from_user;
       senderName = msg.from_user;
     } else if ('username' in msg) {
-      // GdmMessage type
-      senderId = msg.username as string;
-      senderName = msg.username as string;
+      // Message or GdmMessage type (public messages and group messages)
+      senderId = msg.username;
+      senderName = msg.username;
     } else {
       senderId = '';
       senderName = 'Unknown';
@@ -125,22 +121,23 @@ const Index = () => {
 
     return {
       id: String(msg.id),
-      content: ('text' in msg) ? msg.text : '',
+      content: msg.text || '',
       senderId,
       senderName,
       senderAvatar: getUserAvatar(senderId),
-      timestamp: ('created_at' in msg) ? new Date(msg.created_at) : new Date(),
+      timestamp: msg.created_at ? new Date(msg.created_at) : new Date(),
       isOwn: senderId === user?.username,
-      reactions: ('reactions' in msg) ? msg.reactions : [],
-      attachment: ('attachment' in msg) ? {
-        type: getAttachmentType(msg.attachment as string),
-        url: `/uploads/${msg.attachment}`,
-        name: typeof msg.attachment === 'string' ? msg.attachment : msg.attachment?.name || ''
+      reactions: ('reactions' in msg && Array.isArray(msg.reactions)) ? msg.reactions as Reaction[] : [],
+      isEdited: ('edited' in msg && typeof msg.edited === 'number') ? msg.edited > 0 : false,
+      attachment: msg.attachment ? {
+        type: getAttachmentType(msg.attachment),
+        url: `${API_BASE}/uploads/${msg.attachment}`,
+        name: msg.attachment
       } : undefined,
       replyTo: ('reply_to' in msg && msg.reply_to) ? {
         id: String(msg.reply_to),
-        content: (msg.reply_to as any)?.text || '',
-        senderName: (msg.reply_to as any)?.username || (msg.reply_to as any)?.from_user || 'Unknown',
+        content: msg.reply_snippet || '',
+        senderName: msg.reply_username || 'Unknown',
       } : undefined,
     };
   }, [onlineUsers, user]);
@@ -352,10 +349,10 @@ const Index = () => {
 
     const unsubMessageEdited = onMessageEdited((data) => {
       // Update message in state when edited
-      const updateMessageInArray = (messages: Message[]) => {
+      const updateMessageInArray = (messages: Message[]): Message[] => {
         return messages.map(msg => 
           msg.id === String(data.id) 
-            ? { ...msg, content: data.content, edited: true, editedAt: data.edited_at }
+            ? { ...msg, content: data.content, isEdited: true }
             : msg
         );
       };
