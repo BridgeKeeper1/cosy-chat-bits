@@ -1,0 +1,1907 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatter - Docs</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #a21e48;
+            --primary-dark: #7a1638;
+            --secondary: #c41e5e;
+            --background: #f8f7f6;
+            --surface: #ffffff;
+            --surface-light: #f3f0ee;
+            --border: #e5ddd8;
+            --text: #2d2520;
+            --text-muted: #6b6359;
+            --success: #059669;
+            --warning: #d97706;
+            --error: #dc2626;
+            --code-bg: #f3f0ee;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, var(--background) 0%, #f0e8e3 100%);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 8px rgba(162, 30, 72, 0.08);
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            gap: 2rem;
+        }
+
+        .sidebar {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            height: fit-content;
+            position: sticky;
+            top: 80px;
+        }
+
+        .sidebar h3 {
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        .sidebar ul {
+            list-style: none;
+        }
+
+        .sidebar ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        .sidebar a {
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: color 0.3s;
+            display: block;
+            padding: 0.5rem;
+            border-radius: 0.25rem;
+        }
+
+        .sidebar a:hover {
+            color: var(--primary);
+            background: rgba(59, 130, 246, 0.1);
+        }
+
+        .content {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 0.5rem;
+            padding: 2rem;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        h2 {
+            font-size: 1.75rem;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 0.5rem;
+        }
+
+        h3 {
+            font-size: 1.25rem;
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+            color: var(--secondary);
+        }
+
+        p {
+            margin-bottom: 1rem;
+            color: var(--text-muted);
+        }
+
+        code {
+            background: var(--code-bg);
+            border: 1px solid var(--border);
+            border-radius: 0.25rem;
+            padding: 0.2rem 0.4rem;
+            font-family: 'Courier New', monospace;
+            color: #590000;
+        }
+
+        pre {
+            background: var(--code-bg);
+            border: 1px solid var(--border);
+            border-radius: 0.5rem;
+            padding: 1rem;
+            overflow-x: auto;
+            margin-bottom: 1rem;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+        }
+
+        pre code {
+            background: none;
+            border: none;
+            padding: 0;
+            color: #590000;
+        }
+
+        .endpoint {
+            background: rgba(59, 130, 246, 0.05);
+            border-left: 4px solid var(--primary);
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 0.25rem;
+        }
+
+        .endpoint-method {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 0.25rem;
+            font-weight: 600;
+            font-size: 0.85rem;
+            margin-right: 0.5rem;
+        }
+
+        .method-get {
+            background: #10b981;
+            color: white;
+        }
+
+        .method-post {
+            background: #3b82f6;
+            color: white;
+        }
+
+        .method-put {
+            background: #f59e0b;
+            color: white;
+        }
+
+        .method-delete {
+            background: #ef4444;
+            color: white;
+        }
+
+        .param-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+
+        .param-table th {
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid var(--border);
+            padding: 0.75rem;
+            text-align: left;
+            color: var(--primary);
+        }
+
+        .param-table td {
+            border: 1px solid var(--border);
+            padding: 0.75rem;
+        }
+
+        .param-table tr:hover {
+            background: rgba(59, 130, 246, 0.05);
+        }
+
+        .required {
+            color: var(--error);
+            font-weight: 600;
+        }
+
+        .optional {
+            color: var(--warning);
+        }
+
+        .example-box {
+            background: var(--code-bg);
+            border: 1px solid var(--border);
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+
+        .example-title {
+            color: var(--secondary);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .command {
+            background: rgba(16, 185, 129, 0.1);
+            border-left: 4px solid var(--success);
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 0.25rem;
+        }
+
+        .command-name {
+            color: var(--success);
+            font-weight: 600;
+            font-family: 'Courier New', monospace;
+        }
+
+        .note {
+            background: rgba(139, 92, 246, 0.1);
+            border-left: 4px solid var(--secondary);
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 0.25rem;
+        }
+
+        .warning {
+            background: rgba(245, 158, 11, 0.1);
+            border-left: 4px solid var(--warning);
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 0.25rem;
+        }
+
+        footer {
+            background: var(--surface);
+            border-top: 1px solid var(--border);
+            padding: 2rem;
+            text-align: center;
+            color: var(--text-muted);
+            margin-top: 4rem;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                position: static;
+            }
+
+            h1 {
+                font-size: 1.75rem;
+            }
+
+            h2 {
+                font-size: 1.25rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">💬 Chatter // Docs</div>
+            <ul class="nav-links">
+                <li><a href="/resources/">Home</a></li>
+                <li><a href="/login">Login</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="container">
+        <aside class="sidebar">
+            <h3>Docs</h3>
+            <ul>
+                <li><a href="#overview">Overview</a></li>
+                <li><a href="#authentication">Authentication</a></li>
+                <li><a href="#custom-channels">Custom Channels</a></li>
+                <li><a href="#api-reference">API Reference</a></li>
+                <li><a href="#documents">Documents API</a></li>
+                <li><a href="#messaging">Messaging API</a></li>
+                <li><a href="#channels">Channel API</a></li>
+                <li><a href="#commands">Built-in Commands</a></li>
+                <li><a href="#examples">Examples</a></li>
+            </ul>
+        </aside>
+
+        <main class="content">
+            <h1>Chatter API Documentation</h1>
+
+            <section id="overview">
+                <h2>Overview</h2>
+                <p>The Chatter API allows developers to create custom channels and extend the platform's functionality. Custom channels are JavaScript-based modules that can be loaded directly into Chatter, providing new communication features and integrations.</p>
+                
+                <h3>Key Features</h3>
+                <ul style="margin-left: 1.5rem; margin-bottom: 1rem;">
+                    <li>Real-time message handling via Socket.IO</li>
+                    <li>File management with tmpweb integration</li>
+                    <li>User interaction and presence tracking</li>
+                    <li>Built-in commands for common operations</li>
+                    <li>Persistent storage and state management</li>
+                </ul>
+            </section>
+
+            <section id="authentication">
+                <h2>Authentication</h2>
+                <p>Custom channels inherit the authentication context from the main Chatter application. The current user is available through the global <code>socket</code> object and session data.</p>
+
+                <h3>Getting Current User</h3>
+                <pre><code>// Get current username from session
+const username = sessionStorage.getItem('username');
+
+// Or via API
+fetch('/api/whoami')
+    .then(r => r.json())
+    .then(data => console.log(data.username));</code></pre>
+            </section>
+
+            <section id="custom-channels">
+                <h2>Custom Channels</h2>
+                <p>Custom channels are self-contained modules that extend Chatter's functionality. They can be loaded from URLs and provide custom UI, commands, and integrations.</p>
+
+                <h3>Channel Structure</h3>
+                <p>A custom channel is a JavaScript object with the following structure:</p>
+                <pre><code>{
+    name: "Channel Name",
+    version: "1.0.0",
+    description: "Channel description",
+    icon: "📦",
+    
+    // Initialize the channel
+    init: function(container, socket, utils) {
+        // Setup UI and event listeners
+    },
+    
+    // Handle incoming messages
+    onMessage: function(data) {
+        // Process messages
+    },
+    
+    // Handle commands
+    onCommand: function(cmd, args) {
+        // Process commands
+    },
+    
+    // Cleanup on unload
+    destroy: function() {
+        // Cleanup resources
+    }
+}</code></pre>
+
+                <h3>Loading Custom Channels</h3>
+                <p>Custom channels can be loaded in settings by providing a URL to the channel definition:</p>
+                <pre><code>// Channel URL should return the channel object
+// Example: https://example.com/my-channel.js
+// The file should export: window.ChatterCustomChannel = { ... }</code></pre>
+            </section>
+
+            <section id="api-reference">
+                <h2>API Reference</h2>
+                <p>Complete API documentation for all Chatter endpoints and services:</p>
+                
+                <div class="endpoint" style="cursor: pointer;" onclick="toggleSection('file-management')">
+                    <span class="endpoint-method method-get">📁</span>
+                    <code>File Management API</code>
+                    <p style="margin: 0; font-size: 0.9em;">Upload, manage, and delete files with tmpweb integration</p>
+                </div>
+                
+                <div id="file-management" style="display: none; margin-left: 2rem; margin-top: 1rem;">
+                    <h3>File Management API</h3>
+
+                    <div class="endpoint">
+                        <span class="endpoint-method method-post">POST</span>
+                        <code>/api/files/upload</code>
+                        <p>Upload a file to tmpweb</p>
+                    </div>
+
+                    <table class="param-table">
+                        <thead>
+                            <tr>
+                                <th>Parameter</th>
+                                <th>Type</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><span class="required">file</span></td>
+                                <td>File</td>
+                                <td>File to upload (multipart/form-data)</td>
+                            </tr>
+                            <tr>
+                                <td><span class="optional">expiry</span></td>
+                                <td>number</td>
+                                <td>Expiry time in seconds (default: 604800 = 7 days)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="endpoint">
+                        <span class="endpoint-method method-get">GET</span>
+                        <code>/api/files/list</code>
+                        <p>List uploaded files</p>
+                    </div>
+
+                    <div class="endpoint">
+                        <span class="endpoint-method method-delete">DELETE</span>
+                        <code>/api/files/:id</code>
+                        <p>Delete a file</p>
+                    </div>
+                </div>
+
+                <div class="endpoint" style="cursor: pointer; margin-top: 1rem;" onclick="toggleSection('user-management')">
+                    <span class="endpoint-method method-get">👤</span>
+                    <code>User Management API</code>
+                    <p style="margin: 0; font-size: 0.9em;">Manage users, authentication, and permissions</p>
+                </div>
+                
+                <div id="user-management" style="display: none; margin-left: 2rem; margin-top: 1rem;">
+                    <h3>User Management API</h3>
+
+                    <div class="endpoint">
+                        <span class="endpoint-method method-get">GET</span>
+                        <code>/api/whoami</code>
+                        <p>Get current user information</p>
+                    </div>
+
+                    <div class="example-box">
+                        <div class="example-title">Response Example</div>
+                        <pre><code>{
+    "username": "john_doe",
+    "user_id": 12345,
+    "authenticated": true
+}</code></pre>
+                    </div>
+
+                    <div class="endpoint">
+                        <span class="endpoint-method method-get">GET</span>
+                        <code>/api/users/online</code>
+                        <p>List online users (admin only)</p>
+                    </div>
+
+                    <div class="endpoint">
+                        <span class="endpoint-method method-get">GET</span>
+                        <code>/api/users/search</code>
+                        <p>Search for users by username</p>
+                    </div>
+
+                    <table class="param-table">
+                        <thead>
+                            <tr>
+                                <th>Parameter</th>
+                                <th>Type</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><span class="required">query</span></td>
+                                <td>string</td>
+                                <td>Search query for usernames</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="example-box">
+                        <div class="example-title">Response Example</div>
+                        <pre><code>["alice", "alex", "alice123"]</code></pre>
+                    </div>
+
+                    <div class="endpoint">
+                        <span class="endpoint-method method-get">GET</span>
+                        <code>/api/users_profiles</code>
+                        <p>Get all user profiles</p>
+                    </div>
+
+                    <h4>Account Management</h4>
+
+                    <div class="endpoint">
+                        <span class="endpoint-method method-post">POST</span>
+                        <code>/api/account/delete</code>
+                        <p>Delete your own account</p>
+                    </div>
+
+                    <div class="note">
+                        <strong>Note:</strong> This action is irreversible and will permanently delete your account and all associated data.
+                    </div>
+
+                    <h4>Avatar Management</h4>
+
+                    <div class="endpoint">
+                        <span class="endpoint-method method-post">POST</span>
+                        <code>/api/upload/avatar</code>
+                        <p>Upload avatar image</p>
+                    </div>
+
+                    <table class="param-table">
+                        <thead>
+                            <tr>
+                                <th>Parameter</th>
+                                <th>Type</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><span class="required">avatar</span></td>
+                                <td>File</td>
+                                <td>Image file (multipart/form-data)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="endpoint">
+                        <span class="endpoint-method method-post">POST</span>
+                        <code>/api/delete/avatar</code>
+                        <p>Delete current avatar</p>
+                    </div>
+                </div>
+
+                <div class="endpoint" style="cursor: pointer; margin-top: 1rem;" onclick="toggleSection('settings-api')">
+                    <span class="endpoint-method method-get">🔧</span>
+                    <code>Settings API</code>
+                    <p style="margin: 0; font-size: 0.9em;">User preferences and application settings</p>
+                </div>
+                
+                <div id="settings-api" style="display: none; margin-left: 2rem; margin-top: 1rem;">
+                    <h3>Settings API</h3>
+
+                    <div class="endpoint">
+                        <span class="endpoint-method method-post">POST</span>
+                        <code>/api/settings</code>
+                        <p>Update user preferences</p>
+                    </div>
+
+                    <div class="endpoint">
+                        <span class="endpoint-method method-post">POST</span>
+                        <code>/api/store-return-url</code>
+                        <p>Store return URL for post-login redirect</p>
+                    </div>
+
+                    <table class="param-table">
+                        <thead>
+                            <tr>
+                                <th>Parameter</th>
+                                <th>Type</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><span class="required">return_url</span></td>
+                                <td>string</td>
+                                <td>URL to redirect to after login</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="endpoint">
+                        <span class="endpoint-method method-get">GET</span>
+                        <code>/api/alerts</code>
+                        <p>Get current system alerts</p>
+                    </div>
+
+                    <div class="example-box">
+                        <div class="example-title">Response Example</div>
+                        <pre><code>{
+    "enabled": true,
+    "text": "System maintenance scheduled for 2:00 AM"
+}</code></pre>
+                    </div>
+                </div>
+
+                <div class="endpoint" style="cursor: pointer; margin-top: 1rem;" onclick="toggleSection('public-api')">
+                    <span class="endpoint-method method-get">🌐</span>
+                    <code>Public API</code>
+                    <p style="margin: 0; font-size: 0.9em;">Public information and status endpoints</p>
+                </div>
+                
+                <div id="public-api" style="display: none; margin-left: 2rem; margin-top: 1rem;">
+                    <h3>Public API</h3>
+
+                    <div class="endpoint">
+                        <span class="endpoint-method method-get">GET</span>
+                        <code>/api/messages</code>
+                        <p>Get public chat messages</p>
+                    </div>
+
+                    <div class="endpoint">
+                        <span class="endpoint-method method-get">GET</span>
+                        <code>/api/online</code>
+                        <p>Get list of online users</p>
+                    </div>
+
+                    <div class="example-box">
+                        <div class="example-title">Response Example</div>
+                        <pre><code>["alice", "bob", "charlie"]</code></pre>
+                    </div>
+
+                    <div class="endpoint">
+                        <span class="endpoint-method method-get">GET</span>
+                        <code>/api/users_all</code>
+                        <p>Get all registered users</p>
+                    </div>
+
+                    <div class="endpoint">
+                        <span class="endpoint-method method-post">POST</span>
+                        <code>/api/clear/all</code>
+                        <p>Clear all chat data (your own messages only)</p>
+                    </div>
+
+                    <div class="note">
+                        <strong>Note:</strong> This only clears your own chat history, not other users' messages.
+                    </div>
+                </div>
+
+                <div class="endpoint" style="cursor: pointer; margin-top: 1rem;" onclick="toggleSection('admin-api')">
+                    <span class="endpoint-method method-get">⚙️</span>
+                    <code>Admin API</code>
+                    <p style="margin: 0; font-size: 0.9em;">Administrative functions and system management</p>
+                </div>
+                
+                <div id="admin-api" style="display: none; margin-left: 2rem; margin-top: 1rem;">
+                    <h3>Admin API</h3>
+
+                    <div class="endpoint">
+                        <span class="endpoint-method method-post">POST</span>
+                        <code>/api/admin/toggles</code>
+                        <p>Update system settings and feature toggles</p>
+                    </div>
+
+                    <div class="endpoint">
+                        <span class="endpoint-method method-get">GET</span>
+                        <code>/api/admin/online</code>
+                        <p>Get online users with IP information (admin only)</p>
+                    </div>
+
+                    <div class="endpoint">
+                        <span class="endpoint-method method-post">POST</span>
+                        <code>/api/admin/true_ban</code>
+                        <p>Ban user + device + IPs (admin only)</p>
+                    </div>
+
+                    <div class="endpoint">
+                        <span class="endpoint-method method-post">POST</span>
+                        <code>/api/admin/true_unban</code>
+                        <p>Unban user + device + IPs (admin only)</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="documents">
+                <h2>Documents API</h2>
+                <p>The Documents API provides functionality for creating, managing, and collaborating on documents with real-time editing and role-based permissions.</p>
+
+                <h3>Document Management</h3>
+                <p>The Documents API provides functionality for creating, managing, and collaborating on documents with real-time editing and role-based permissions.</p>
+
+                <h3>Document Roles</h3>
+                <ul style="margin-left: 1.5rem; margin-bottom: 1rem;">
+                    <li><strong>Viewer</strong>: Can read documents only</li>
+                    <li><strong>Editor</strong>: Can read and edit documents</li>
+                    <li><strong>Creator</strong>: Document owner who can manage members and permissions</li>
+                </ul>
+
+                <div class="endpoint">
+                    <span class="endpoint-method method-post">POST</span>
+                    <code>/api/doc/create</code>
+                    <p>Create a new document</p>
+                </div>
+
+                <table class="param-table">
+                    <thead>
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Type</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="required">name</span></td>
+                            <td>string</td>
+                            <td>Document name</td>
+                        </tr>
+                        <tr>
+                            <td><span class="required">content</span></td>
+                            <td>string</td>
+                            <td>Initial document content</td>
+                        </tr>
+                        <tr>
+                            <td><span class="optional">members</span></td>
+                            <td>array</td>
+                            <td>List of members to add (username, role)</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="example-box">
+                    <div class="example-title">Request Example</div>
+                    <pre><code>POST /api/doc/create
+Content-Type: application/json
+
+{
+    "name": "Meeting Notes",
+    "content": "# Meeting Notes\n\n## Agenda\n- Project updates\n- Timeline review",
+    "members": [
+        {"username": "alice", "role": "editor"},
+        {"username": "bob", "role": "viewer"}
+    ]
+}</code></pre>
+                </div>
+
+                <div class="endpoint">
+                    <span class="endpoint-method method-get">GET</span>
+                    <code>/api/doc/list</code>
+                    <p>List all documents you have access to</p>
+                </div>
+
+                <div class="example-box">
+                    <div class="example-title">Response Example</div>
+                    <pre><code>{
+    "ok": true,
+    "documents": [
+        {
+            "id": 1,
+            "name": "Meeting Notes",
+            "created_by": "john_doe",
+            "created_at": "2025-01-15T10:30:00Z",
+            "last_edited_at": "2025-01-15T11:00:00Z",
+            "role": "creator"
+        }
+    ]
+}</code></pre>
+                </div>
+
+                <div class="endpoint">
+                    <span class="endpoint-method method-get">GET</span>
+                    <code>/api/doc/:id</code>
+                    <p>Get document details and content</p>
+                </div>
+
+                <table class="param-table">
+                    <thead>
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Type</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="required">id</span></td>
+                            <td>integer</td>
+                            <td>Document ID</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="example-box">
+                    <div class="example-title">Response Example</div>
+                    <pre><code>{
+    "id": 1,
+    "name": "My Document",
+    "content": "Document content here...",
+    "created_by": "username",
+    "created_at": "2025-01-15T10:30:00Z",
+    "last_edited_by": "username",
+    "last_edited_at": "2025-01-15T11:00:00Z"
+}</code></pre>
+                </div>
+
+                <div class="endpoint">
+                    <span class="endpoint-method method-get">GET</span>
+                    <code>/api/doc/:id/members</code>
+                    <p>List all members of a document</p>
+                </div>
+
+                <div class="example-box">
+                    <div class="example-title">Response Example</div>
+                    <pre><code>{
+    "ok": true,
+    "members": [
+        {
+            "username": "user1",
+            "role": "editor",
+            "added_at": "2025-01-15T10:30:00Z"
+        },
+        {
+            "username": "user2", 
+            "role": "viewer",
+            "added_at": "2025-01-15T10:35:00Z"
+        }
+    ]
+}</code></pre>
+                </div>
+
+                <div class="endpoint">
+                    <span class="endpoint-method method-post">POST</span>
+                    <code>/api/doc/:id/add_member</code>
+                    <p>Add a member to a document</p>
+                </div>
+
+                <table class="param-table">
+                    <thead>
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Type</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="required">username</span></td>
+                            <td>string</td>
+                            <td>Username to add</td>
+                        </tr>
+                        <tr>
+                            <td><span class="required">role</span></td>
+                            <td>string</td>
+                            <td>Role: "viewer" or "editor"</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="example-box">
+                    <div class="example-title">Request Example</div>
+                    <pre><code>POST /api/doc/1/add_member
+Content-Type: application/json
+
+{
+    "username": "newuser",
+    "role": "editor"
+}</code></pre>
+                </div>
+
+                <div class="endpoint">
+                    <span class="endpoint-method method-post">POST</span>
+                    <code>/api/doc/:id/remove_member</code>
+                    <p>Remove a member from a document</p>
+                </div>
+
+                <table class="param-table">
+                    <thead>
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Type</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="required">username</span></td>
+                            <td>string</td>
+                            <td>Username to remove</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="endpoint">
+                    <span class="endpoint-method method-post">POST</span>
+                    <code>/api/doc/:id/update_member_role</code>
+                    <p>Update a member's role</p>
+                </div>
+
+                <table class="param-table">
+                    <thead>
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Type</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="required">username</span></td>
+                            <td>string</td>
+                            <td>Username to update</td>
+                        </tr>
+                        <tr>
+                            <td><span class="required">role</span></td>
+                            <td>string</td>
+                            <td>New role: "viewer" or "editor"</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="endpoint">
+                    <span class="endpoint-method method-post">POST</span>
+                    <code>/api/doc/:id/delete</code>
+                    <p>Delete a document (creator only)</p>
+                </div>
+
+                <div class="note">
+                    <strong>Note:</strong> Only the document creator can delete a document. This action cannot be undone and will remove all document content and member associations.
+                </div>
+
+                <div class="example-box">
+                    <div class="example-title">Response Example</div>
+                    <pre><code>{
+    "ok": true
+}</code></pre>
+                </div>
+
+                <h3>Socket.IO Events</h3>
+                <p>Documents use Socket.IO for real-time collaboration:</p>
+
+                <div class="endpoint">
+                    <span class="endpoint-method method-post">EMIT</span>
+                    <code>doc_join</code>
+                    <p>Join a document room for real-time updates</p>
+                </div>
+
+                <div class="example-box">
+                    <div class="example-title">Event Data</div>
+                    <pre><code>{
+    "doc_id": 1
+}</code></pre>
+                </div>
+
+                <div class="endpoint">
+                    <span class="endpoint-method method-post">EMIT</span>
+                    <code>doc_edit</code>
+                    <p>Send document edits to other users</p>
+                </div>
+
+                <div class="example-box">
+                    <div class="example-title">Event Data</div>
+                    <pre><code>{
+    "doc_id": 1,
+    "content": "Updated document content..."
+}</code></pre>
+                </div>
+
+                <div class="endpoint">
+                    <span class="endpoint-method method-get">LISTEN</span>
+                    <code>doc_updated</code>
+                    <p>Receive document updates from other users</p>
+                </div>
+
+                <div class="example-box">
+                    <div class="example-title">Event Data</div>
+                    <pre><code>{
+    "doc_id": 1,
+    "content": "Updated document content..."
+}</code></pre>
+                </div>
+
+                <div class="endpoint">
+                    <span class="endpoint-method method-get">LISTEN</span>
+                    <code>doc_member_added</code>
+                    <p>Notify when a member is added</p>
+                </div>
+
+                <div class="endpoint">
+                    <span class="endpoint-method method-get">LISTEN</span>
+                    <code>doc_member_removed</code>
+                    <p>Notify when a member is removed</p>
+                </div>
+
+                <div class="endpoint">
+                    <span class="endpoint-method method-get">LISTEN</span>
+                    <code>doc_member_role_updated</code>
+                    <p>Notify when a member's role is updated</p>
+                </div>
+
+                <div class="endpoint">
+                    <span class="endpoint-method method-get">LISTEN</span>
+                    <code>doc_deleted</code>
+                    <p>Notify when a document is deleted</p>
+                </div>
+
+                <div class="example-box">
+                    <div class="example-title">Event Data</div>
+                    <pre><code>{
+    "doc_id": 1
+}</code></pre>
+                </div>
+            </section>
+
+            <section id="messaging">
+                <h2>Messaging API</h2>
+                <p>The Messaging API provides endpoints for managing Direct Messages (DMs) and Group Direct Messages (GDMs), including message history, logging, and real-time communication.</p>
+
+                <h3>Message Logging Configuration</h3>
+                <p>DM logging can be controlled via the <code>GD_SAVE_DM_LOGS</code> setting:</p>
+                <ul style="margin-left: 1.5rem; margin-bottom: 1rem;">
+                    <li><strong>Enabled (1)</strong>: DM messages are logged and accessible via admin APIs</li>
+                    <li><strong>Disabled (0)</strong>: DM messages are not logged for privacy</li>
+                </ul>
+
+                <h3>Direct Messages (DMs)</h3>
+
+                <div class="endpoint">
+                    <span class="endpoint-method method-get">GET</span>
+                    <code>/api/dm/peers</code>
+                    <p>Get list of users you have DM conversations with</p>
+                </div>
+
+                <div class="example-box">
+                    <div class="example-title">Response Example</div>
+                    <pre><code>[
+    "user1",
+    "user2", 
+    "admin"
+]</code></pre>
+                </div>
+
+                <div class="endpoint">
+                    <span class="endpoint-method method-get">GET</span>
+                    <code>/api/dm/messages</code>
+                    <p>Get DM conversation history with a specific user</p>
+                </div>
+
+                <table class="param-table">
+                    <thead>
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Type</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="required">peer</span></td>
+                            <td>string</td>
+                            <td>Username to get conversation with</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="example-box">
+                    <div class="example-title">Response Example</div>
+                    <pre><code>[
+    {
+        "id": 123,
+        "from_user": "username",
+        "to_user": "peer",
+        "text": "Hello there!",
+        "attachment": null,
+        "created_at": "2025-01-15T10:30:00Z",
+        "reply_to": null
+    }
+]</code></pre>
+                </div>
+
+                <h3>Group Direct Messages (GDMs)</h3>
+
+                <div class="endpoint">
+                    <span class="endpoint-method method-get">GET</span>
+                    <span class="endpoint-method method-post">POST</span>
+                    <code>/api/gdm/threads</code>
+                    <p>Get GDM threads or create a new GDM</p>
+                </div>
+
+                <div class="example-box">
+                    <div class="example-title">Create GDM Request</div>
+                    <pre><code>POST /api/gdm/threads
+Content-Type: application/json
+
+{
+    "name": "Project Team",
+    "members": ["user1", "user2", "user3"]
+}</code></pre>
+                </div>
+
+                <div class="example-box">
+                    <div class="example-title">Response Example</div>
+                    <pre><code>{
+    "ok": true,
+    "id": 456,
+    "name": "Project Team"
+}</code></pre>
+                </div>
+
+                <div class="endpoint">
+                    <span class="endpoint-method method-get">GET</span>
+                    <code>/api/gdm/messages</code>
+                    <p>Get messages from a specific GDM thread</p>
+                </div>
+
+                <table class="param-table">
+                    <thead>
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Type</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="required">tid</span></td>
+                            <td>integer</td>
+                            <td>Thread ID</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="example-box">
+                    <div class="example-title">Response Example</div>
+                    <pre><code>[
+    {
+        "id": 789,
+        "username": "user1",
+        "text": "Hey team!",
+        "attachment": null,
+        "created_at": "2025-01-15T11:00:00Z",
+        "edited": 0,
+        "reply_to": null,
+        "reply_username": null,
+        "reply_snippet": null
+    }
+]</code></pre>
+                </div>
+
+                <div class="endpoint">
+                    <span class="endpoint-method method-post">POST</span>
+                    <code>/api/gdm/rename</code>
+                    <p>Rename a GDM thread (creator only)</p>
+                </div>
+
+                <div class="endpoint">
+                    <span class="endpoint-method method-post">POST</span>
+                    <code>/api/gdm/add_member</code>
+                    <p>Add members to a GDM (creator only)</p>
+                </div>
+
+                <div class="endpoint">
+                    <span class="endpoint-method method-post">POST</span>
+                    <code>/api/gdm/remove_member</code>
+                    <p>Remove member from GDM (creator or admin)</p>
+                </div>
+
+                <div class="endpoint">
+                    <span class="endpoint-method method-post">POST</span>
+                    <code>/api/gdm/transfer</code>
+                    <p>Transfer GDM ownership to another member</p>
+                </div>
+
+                <div class="endpoint">
+                    <span class="endpoint-method method-get">GET</span>
+                    <code>/api/gdm/thread_info</code>
+                    <p>Get information about a GDM thread (members, lock status, etc.)</p>
+                </div>
+
+                <table class="param-table">
+                    <thead>
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Type</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="required">tid</span></td>
+                            <td>integer</td>
+                            <td>Thread ID</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="endpoint">
+                    <span class="endpoint-method method-post">POST</span>
+                    <code>/api/gdm/kick</code>
+                    <p>Kick a member from GDM (owner only)</p>
+                </div>
+
+                <h3>GDM Management (Admin Controls)</h3>
+                <p>The following endpoints require admin permissions and respect toggle settings:</p>
+
+                <div class="endpoint">
+                    <span class="endpoint-method method-post">POST</span>
+                    <code>/api/gdm/lock</code>
+                    <p>Lock a GDM (prevents new messages)</p>
+                </div>
+
+                <div class="endpoint">
+                    <span class="endpoint-method method-post">POST</span>
+                    <code>/api/gdm/unlock</code>
+                    <p>Unlock a GDM</p>
+                </div>
+
+                <div class="endpoint">
+                    <span class="endpoint-method method-post">POST</span>
+                    <code>/api/gdm/delete</code>
+                    <p>Delete a GDM permanently</p>
+                </div>
+
+                <h3>Admin Message Logging</h3>
+
+                <div class="endpoint">
+                    <span class="endpoint-method method-get">GET</span>
+                    <code>/api/admin/dm_logs</code>
+                    <p>Get DM logs for a specific user (admin only, requires GD_SAVE_DM_LOGS enabled)</p>
+                </div>
+
+                <table class="param-table">
+                    <thead>
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Type</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="required">peer</span></td>
+                            <td>string</td>
+                            <td>Username to get logs for</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="example-box">
+                    <div class="example-title">Response Example</div>
+                    <pre><code>[
+    {
+        "id": 123,
+        "from_user": "user1",
+        "to_user": "user2",
+        "text": "Private message",
+        "created_at": "2025-01-15T10:30:00Z"
+    }
+]</code></pre>
+                </div>
+
+                <div class="note">
+                    <strong>Note:</strong> DM logging is controlled by the <code>GD_SAVE_DM_LOGS</code> setting. When disabled, this endpoint returns 403 and no DM messages are logged.
+                </div>
+
+                <h3>Socket.IO Events</h3>
+                <p>Real-time messaging uses Socket.IO events:</p>
+
+                <div class="endpoint">
+                    <span class="endpoint-method method-post">EMIT</span>
+                    <code>dm_send</code>
+                    <p>Send a direct message</p>
+                </div>
+
+                <div class="example-box">
+                    <div class="example-title">Event Data</div>
+                    <pre><code>{
+    "to": "username",
+    "text": "Hello!",
+    "attachment": null,
+    "reply_to": null
+}</code></pre>
+                </div>
+
+                <div class="endpoint">
+                    <span class="endpoint-method method-post">EMIT</span>
+                    <code>gdm_send</code>
+                    <p>Send a message to a GDM</p>
+                </div>
+
+                <div class="example-box">
+                    <div class="example-title">Event Data</div>
+                    <pre><code>{
+    "thread_id": 456,
+    "text": "Hey team!",
+    "attachment": null,
+    "reply_to": null
+}</code></pre>
+                </div>
+
+                <div class="endpoint">
+                    <span class="endpoint-method method-get">LISTEN</span>
+                    <code>dm_new</code>
+                    <p>Receive new direct messages</p>
+                </div>
+
+                <div class="endpoint">
+                    <span class="endpoint-method method-get">LISTEN</span>
+                    <code>gdm_new</code>
+                    <p>Receive new GDM messages</p>
+                </div>
+
+                <div class="endpoint">
+                    <span class="endpoint-method method-get">LISTEN</span>
+                    <code>gdm_threads_refresh</code>
+                    <p>GDM thread updates (member changes, rename, etc.)</p>
+                </div>
+
+                <div class="endpoint">
+                    <span class="endpoint-method method-get">LISTEN</span>
+                    <code>dm_typing</code>
+                    <p>DM typing indicators</p>
+                </div>
+
+                <div class="endpoint">
+                    <span class="endpoint-method method-get">LISTEN</span>
+                    <code>gdm_typing</code>
+                    <p>GDM typing indicators</p>
+                </div>
+
+                <h3>GDM Invite System</h3>
+                <p>GDM invites allow users to join private groups through invite links or codes.</p>
+
+                <div class="endpoint">
+                    <span class="endpoint-method method-post">POST</span>
+                    <code>/api/gdm/invite/create</code>
+                    <p>Create an invite for a GDM (creator only)</p>
+                </div>
+
+                <table class="param-table">
+                    <thead>
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Type</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="required">thread_id</span></td>
+                            <td>integer</td>
+                            <td>GDM thread ID</td>
+                        </tr>
+                        <tr>
+                            <td><span class="optional">expires_in</span></td>
+                            <td>integer</td>
+                            <td>Invite expiry time in seconds (default: 24 hours)</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="example-box">
+                    <div class="example-title">Request Example</div>
+                    <pre><code>POST /api/gdm/invite/create
+Content-Type: application/json
+
+{
+    "thread_id": 123,
+    "expires_in": 86400
+}</code></pre>
+                </div>
+
+                <div class="example-box">
+                    <div class="example-title">Response Example</div>
+                    <pre><code>{
+    "ok": true,
+    "invite_code": "ABC123XYZ",
+    "invite_url": "https://chat.example.com/join/ABC123XYZ",
+    "expires_at": "2025-01-16T09:00:00Z"
+}</code></pre>
+                </div>
+
+                <div class="endpoint">
+                    <span class="endpoint-method method-get">GET</span>
+                    <span class="endpoint-method method-post">POST</span>
+                    <code>/api/gdm/invite/join</code>
+                    <p>Join a GDM using an invite code or link</p>
+                </div>
+
+                <table class="param-table">
+                    <thead>
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Type</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="required">code</span></td>
+                            <td>string</td>
+                            <td>Invite code (GET: query param, POST: body)</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="example-box">
+                    <div class="example-title">Request Examples</div>
+                    <pre><code>GET /api/gdm/invite/join?code=ABC123XYZ
+
+POST /api/gdm/invite/join
+Content-Type: application/json
+
+{
+    "code": "ABC123XYZ"
+}</code></pre>
+                </div>
+
+                <div class="example-box">
+                    <div class="example-title">Response Example</div>
+                    <pre><code>{
+    "ok": true,
+    "thread_id": 123,
+    "thread_name": "Project Team"
+}</code></pre>
+                </div>
+
+                <div class="note">
+                    <strong>Note:</strong> Invite codes are single-use and expire after the specified time or when used.
+                </div>
+            </section>
+
+            <section id="channels">
+                <h2>Channel API</h2>
+                <p>The Channel API provides endpoints for managing custom channels and voice channels in Chatter.</p>
+
+                <h3>Custom Channels</h3>
+                <p>Custom channels are JavaScript-based modules that extend Chatter's functionality. They can be loaded from URLs and provide custom UI, commands, and integrations.</p>
+
+                <div class="endpoint">
+                    <span class="endpoint-method method-post">POST</span>
+                    <code>/api/channels/custom/register</code>
+                    <p>Register a custom channel</p>
+                </div>
+
+                <table class="param-table">
+                    <thead>
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Type</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="required">url</span></td>
+                            <td>string</td>
+                            <td>URL to the custom channel definition</td>
+                        </tr>
+                        <tr>
+                            <td><span class="required">name</span></td>
+                            <td>string</td>
+                            <td>Display name for the channel</td>
+                        </tr>
+                        <tr>
+                            <td><span class="optional">enabled</span></td>
+                            <td>boolean</td>
+                            <td>Whether to enable the channel (default: true)</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="example-box">
+                    <div class="example-title">Request Example</div>
+                    <pre><code>POST /api/channels/custom/register
+Content-Type: application/json
+
+{
+    "url": "https://example.com/my-channel.js",
+    "name": "My Custom Channel",
+    "enabled": true
+}</code></pre>
+                </div>
+
+                <div class="example-box">
+                    <div class="example-title">Response Example</div>
+                    <pre><code>{
+    "ok": true,
+    "id": 1
+}</code></pre>
+                </div>
+
+                <div class="endpoint">
+                    <span class="endpoint-method method-get">GET</span>
+                    <code>/api/channels/custom/list</code>
+                    <p>List all registered custom channels</p>
+                </div>
+
+                <div class="example-box">
+                    <div class="example-title">Response Example</div>
+                    <pre><code>{
+    "ok": true,
+    "channels": [
+        {
+            "id": 1,
+            "name": "My Custom Channel",
+            "url": "https://example.com/my-channel.js",
+            "enabled": true,
+            "created_at": "2025-01-15T10:30:00Z"
+        }
+    ]
+}</code></pre>
+                </div>
+
+                <div class="endpoint">
+                    <span class="endpoint-method method-delete">DELETE</span>
+                    <code>/api/channels/custom/:id</code>
+                    <p>Delete a custom channel (creator or admin only)</p>
+                </div>
+
+                <table class="param-table">
+                    <thead>
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Type</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="required">id</span></td>
+                            <td>integer</td>
+                            <td>Channel ID to delete</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="endpoint">
+                    <span class="endpoint-method method-post">POST</span>
+                    <code>/api/channels/custom/:id/toggle</code>
+                    <p>Enable or disable a custom channel (creator or admin only)</p>
+                </div>
+
+                <table class="param-table">
+                    <thead>
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Type</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="required">id</span></td>
+                            <td>integer</td>
+                            <td>Channel ID to toggle</td>
+                        </tr>
+                        <tr>
+                            <td><span class="required">enabled</span></td>
+                            <td>boolean</td>
+                            <td>Whether to enable the channel</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>Voice Channels</h3>
+                <p>Voice channels provide real-time audio communication capabilities within Chatter.</p>
+
+                <div class="endpoint">
+                    <span class="endpoint-method method-get">GET</span>
+                    <code>/api/voice/channels</code>
+                    <p>List active voice channels</p>
+                </div>
+
+                <div class="example-box">
+                    <div class="example-title">Response Example</div>
+                    <pre><code>{
+    "ok": true,
+    "channels": [
+        "general",
+        "gaming",
+        "music"
+    ]
+}</code></pre>
+                </div>
+
+                <div class="example-box">
+                    <div class="example-title">Error Response</div>
+                    <pre><code>{
+    "ok": false,
+    "error": "Voice service unavailable",
+    "channels": []
+}</code></pre>
+                </div>
+
+                <h3>Channel Structure</h3>
+                <p>A custom channel is a JavaScript object with the following structure:</p>
+                <pre><code>{
+    name: "Channel Name",
+    version: "1.0.0",
+    description: "Channel description",
+    icon: "📦",
+    
+    // Initialize the channel
+    init: function(container, socket, utils) {
+        // Setup UI and event listeners
+    },
+    
+    // Handle incoming messages
+    onMessage: function(data) {
+        // Process messages
+    },
+    
+    // Handle commands
+    onCommand: function(cmd, args) {
+        // Process commands
+    },
+    
+    // Cleanup on unload
+    destroy: function() {
+        // Cleanup resources
+    }
+}</code></pre>
+
+                <h3>Loading Custom Channels</h3>
+                <p>Custom channels can be loaded in settings by providing a URL to the channel definition:</p>
+                <pre><code>// Channel URL should return the channel object
+// Example: https://example.com/my-channel.js
+// The file should export: window.ChatterCustomChannel = { ... }</code></pre>
+
+                <div class="note">
+                    <strong>Note:</strong> Custom channels run in the same context as the main Chatter application. Be careful not to pollute the global namespace or override existing functionality.
+                </div>
+
+                <div class="warning">
+                    <strong>Warning:</strong> Only load custom channels from trusted sources. Malicious channels could access user data or compromise security.
+                </div>
+            </section>
+
+            <section id="commands">
+                <h2>Built-in Commands</h2>
+                <p>Admin commands for managing files, users, and messaging across all channels:</p>
+
+                <div class="note">
+                    <strong>Note:</strong> These commands are admin-only and work in all channels.
+                </div>
+
+                <div class="command">
+                    <div class="command-name">/file upload &lt;url&gt;</div>
+                    <p>Upload a file from URL to tmpweb storage</p>
+                </div>
+
+                <div class="command">
+                    <div class="command-name">/file list</div>
+                    <p>List all uploaded files with expiry times</p>
+                </div>
+
+                <div class="command">
+                    <div class="command-name">/file delete &lt;id&gt;</div>
+                    <p>Delete a file by ID</p>
+                </div>
+
+                <div class="command">
+                    <div class="command-name">/file info &lt;id&gt;</div>
+                    <p>Get detailed information about a file</p>
+                </div>
+
+                <div class="command">
+                    <div class="command-name">/user info &lt;username&gt;</div>
+                    <p>Get information about a user</p>
+                </div>
+
+                <div class="command">
+                    <div class="command-name">/user list</div>
+                    <p>List all online users</p>
+                </div>
+
+                <div class="command">
+                    <div class="command-name">/message send &lt;channel&gt; &lt;text&gt;</div>
+                    <p>Send a message to a channel</p>
+                </div>
+
+                <div class="command">
+                    <div class="command-name">/channel info</div>
+                    <p>Get current channel information</p>
+                </div>
+            </section>
+
+            <section id="examples">
+                <h2>Examples</h2>
+
+                <h3>Example 1: Simple Echo Channel</h3>
+                <p>A basic channel that echoes messages back to the user:</p>
+                <pre><code>window.ChatterCustomChannel = {
+    name: "Echo Channel",
+    version: "1.0.0",
+    description: "Echoes messages back to you",
+    icon: "🔊",
+    
+    init: function(container, socket, utils) {
+        container.innerHTML = `
+            &lt;div style="padding: 1rem;"&gt;
+                &lt;h3&gt;Echo Channel&lt;/h3&gt;
+                &lt;div id="echo-messages" style="margin-bottom: 1rem;"&gt;&lt;/div&gt;
+                &lt;input id="echo-input" type="text" placeholder="Type something..." 
+                       style="width: 100%; padding: 0.5rem;"&gt;
+            &lt;/div&gt;
+        `;
+        
+        const input = document.getElementById('echo-input');
+        const messages = document.getElementById('echo-messages');
+        
+        input.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter' && input.value) {
+                const msg = document.createElement('div');
+                msg.textContent = '🔊 ' + input.value;
+                msg.style.padding = '0.5rem';
+                msg.style.margin = '0.25rem 0';
+                msg.style.background = 'rgba(59, 130, 246, 0.1)';
+                msg.style.borderRadius = '0.25rem';
+                messages.appendChild(msg);
+                input.value = '';
+            }
+        });
+    },
+    
+    destroy: function() {
+        // Cleanup
+    }
+};</code></pre>
+
+                <h3>Example 2: File Manager Channel</h3>
+                <p>A channel for managing uploaded files:</p>
+                <pre><code>window.ChatterCustomChannel = {
+    name: "File Manager",
+    version: "1.0.0",
+    description: "Manage uploaded files",
+    icon: "📁",
+    
+    init: function(container, socket, utils) {
+        container.innerHTML = `
+            &lt;div style="padding: 1rem;"&gt;
+                &lt;h3&gt;File Manager&lt;/h3&gt;
+                &lt;input type="file" id="file-input" style="margin-bottom: 1rem;"&gt;
+                &lt;button id="upload-btn" style="padding: 0.5rem 1rem; cursor: pointer;"&gt;
+                    Upload
+                &lt;/button&gt;
+                &lt;div id="file-list" style="margin-top: 1rem;"&gt;&lt;/div&gt;
+            &lt;/div&gt;
+        `;
+        
+        document.getElementById('upload-btn').addEventListener('click', async () => {
+            const file = document.getElementById('file-input').files[0];
+            if (!file) return;
+            
+            const formData = new FormData();
+            formData.append('file', file);
+            
+            const response = await fetch('/api/files/upload', {
+                method: 'POST',
+                body: formData
+            });
+            
+            const data = await response.json();
+            if (data.ok) {
+                alert('File uploaded: ' + data.url);
+                this.loadFiles();
+            }
+        });
+        
+        this.loadFiles();
+    },
+    
+    loadFiles: function() {
+        fetch('/api/files/list')
+            .then(r => r.json())
+            .then(data => {
+                const list = document.getElementById('file-list');
+                list.innerHTML = data.files.map(f => `
+                    &lt;div style="padding: 0.5rem; margin: 0.25rem 0; 
+                                background: rgba(59, 130, 246, 0.1); 
+                                border-radius: 0.25rem;"&gt;
+                        &lt;strong&gt;${f.name}&lt;/strong&gt;
+                        &lt;small&gt;Expires: ${new Date(f.expires_at).toLocaleString()}&lt;/small&gt;
+                    &lt;/div&gt;
+                `).join('');
+            });
+    },
+    
+    destroy: function() {}
+};</code></pre>
+
+                <h3>Example 3: User Status Channel</h3>
+                <p>A channel that displays online users:</p>
+                <pre><code>window.ChatterCustomChannel = {
+    name: "User Status",
+    version: "1.0.0",
+    description: "View online users",
+    icon: "👥",
+    
+    init: function(container, socket, utils) {
+        container.innerHTML = `
+            &lt;div style="padding: 1rem;"&gt;
+                &lt;h3&gt;Online Users&lt;/h3&gt;
+                &lt;div id="user-list"&gt;&lt;/div&gt;
+            &lt;/div&gt;
+        `;
+        
+        socket.on('user_list_refresh', () => this.loadUsers());
+        this.loadUsers();
+    },
+    
+    loadUsers: function() {
+        fetch('/api/users/online')
+            .then(r => r.json())
+            .then(data => {
+                const list = document.getElementById('user-list');
+                list.innerHTML = data.users.map(u => `
+                    &lt;div style="padding: 0.5rem; margin: 0.25rem 0; 
+                                display: flex; align-items: center; gap: 0.5rem;"&gt;
+                        &lt;span style="width: 8px; height: 8px; 
+                                    background: #10b981; border-radius: 50%;"&gt;&lt;/span&gt;
+                        &lt;strong&gt;${u.username}&lt;/strong&gt;
+                    &lt;/div&gt;
+                `).join('');
+            });
+    },
+    
+    destroy: function() {}
+};</code></pre>
+            </section>
+
+            <section>
+                <h2>Best Practices</h2>
+                <ul style="margin-left: 1.5rem; margin-bottom: 1rem;">
+                    <li>Always clean up resources in the <code>destroy</code> method</li>
+                    <li>Use Socket.IO events for real-time updates</li>
+                    <li>Handle errors gracefully with try-catch blocks</li>
+                    <li>Validate user input before processing</li>
+                    <li>Use HTTPS for custom channel URLs in production</li>
+                    <li>Test channels thoroughly before deployment</li>
+                    <li>Document your channel's API and commands</li>
+                </ul>
+
+                <div class="note">
+                    <strong>Note:</strong> Custom channels run in the same context as the main Chatter application. Be careful not to pollute the global namespace or override existing functionality.
+                </div>
+
+                <div class="warning">
+                    <strong>Warning:</strong> Only load custom channels from trusted sources. Malicious channels could access user data or compromise security.
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Chatter. API Documentation. <a href="/resources/" style="color: var(--primary);">Back to Home</a></p>
+    </footer>
+    <script>
+        function toggleSection(sectionId) {
+            const section = document.getElementById(sectionId);
+            if (section.style.display === 'none') {
+                section.style.display = 'block';
+            } else {
+                section.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>
